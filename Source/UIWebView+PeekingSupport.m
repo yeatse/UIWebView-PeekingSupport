@@ -107,10 +107,13 @@ static void SwizzleSelectorsInClass(Class class, SEL originalSelector, SEL swizz
     [revealGesture addObserver:observer forKeyPath:@"state" options:NSKeyValueObservingOptionNew context:&kObservingState];
     
     UIView* browserView = [self valueForKeyPath:@"internal.browserView"];
-    NSArray* arr = @[@"singleTapGestureRecognizer", @"longPressGestureRecognizer", @"highlightLongPressGestureRecognizer"];
+    NSArray<NSString*>* paths = @[@"singleTapGestureRecognizer",
+                                  @"longPressGestureRecognizer",
+                                  @"highlightLongPressGestureRecognizer",
+                                  @"webSelectionAssistant.longPressGestureRecognizer"];
     UIGestureRecognizer* recognizer = [self yt_gestureRecognizerWithClassName:PreviewGestureRecognizer];
-    for (NSString* key in arr) {
-        [[browserView valueForKey:key] requireGestureRecognizerToFail:recognizer];
+    for (NSString* path in paths) {
+        [[browserView valueForKeyPath:path] requireGestureRecognizerToFail:recognizer];
     }
 }
 
